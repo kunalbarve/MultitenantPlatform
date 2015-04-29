@@ -2,20 +2,20 @@ package com.cmpe281.multitenant;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cmpe281.multitenant.DAO.MetadataDAO;
 import com.cmpe281.multitenant.Manager.UserManager;
+import com.cmpe281.multitenant.Model.MetaData;
 import com.cmpe281.multitenant.Model.User;
-import com.cmpe281.multitenant.Utility.MongoConfig;
 
 @Controller
 public class HomeController {
@@ -34,10 +34,19 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate );
 		
 		
-		
+//		getMetaData();
 		
 		
 		return "home";
+	}
+	
+	public String getMetaData(){
+		int tenantId = 2;
+		List<MetaData> metaDataDetails = MetadataDAO.getAttributeDetails(tenantId);
+		for (MetaData metaData : metaDataDetails) {
+			System.out.println("Metadata:"+metaData.toString());
+		}
+		return "";
 	}
 	
 	public String getUser(){
