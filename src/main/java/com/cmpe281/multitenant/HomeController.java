@@ -60,7 +60,6 @@ public class HomeController {
 		String password = "password";
 
 		if(userName == null){
-			//redirect to error page
 		}
 
 		User user = new User();
@@ -73,11 +72,8 @@ public class HomeController {
 
 		if(signInResult)
 			System.out.println("Login SuccessFul");
-
 		else
-
 			System.out.println("Login Failed");
-
 	}
 
 	public void saveUser(){
@@ -104,7 +100,7 @@ public class HomeController {
 		int tenantId = 3;
 		String sprintName = "Sprint 2";
 		int sprintDuration = 10;
-		Date startDate = new Date(2015,4,28);
+		Date startDate = new Date();
 
 
 		Project project = new Project();
@@ -121,6 +117,11 @@ public class HomeController {
 		project.setData(data);
 
 		ProjectManager.saveProject(project);
-
+	}
+	
+	public String getAllProjects(){
+		String userId = "";
+		
+		return "";
 	}
 }
