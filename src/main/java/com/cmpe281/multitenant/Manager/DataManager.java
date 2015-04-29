@@ -5,8 +5,8 @@ import com.cmpe281.multitenant.Model.Data;
 
 public class DataManager {
 	
-		public static void saveProject(Data data) {
-			DataDAO.saveData(data);
+		public static void saveData(Data data,String projectId) throws Exception{
+			DataDAO.saveData(data,projectId);
 		}
 
 }

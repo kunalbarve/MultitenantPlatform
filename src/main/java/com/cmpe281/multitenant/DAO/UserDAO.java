@@ -8,7 +8,7 @@ import com.cmpe281.multitenant.Utility.MongoConfig;
 
 public class UserDAO {
 
-	public static User getUser(User user) {
+	public static User getUser(User user) throws Exception{
 		
 		Query query = new Query();
 		query.addCriteria(Criteria.where("email").is(user.getEmail()));
@@ -20,7 +20,7 @@ public class UserDAO {
 		
 	}
 	
-	public static void setUser(User user) {
+	public static void setUser(User user)throws Exception {
 		MongoConfig.getMongoOperationsObj().save(user);
 	
 		if(user != null)

@@ -4,13 +4,13 @@ import java.util.List;
 
 public class Data {
 	
-	private int dataId;
+	private long dataId;
 	private List<Attribute> attributeValues;
 	
-	public int getDataId() {
+	public long getDataId() {
 		return dataId;
 	}
-	public void setDataId(int dataId) {
+	public void setDataId(long dataId) {
 		this.dataId = dataId;
 	}
 	

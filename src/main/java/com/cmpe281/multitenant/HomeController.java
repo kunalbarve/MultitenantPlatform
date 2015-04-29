@@ -13,13 +13,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cmpe281.multitenant.DAO.DataSequenceDAO;
 import com.cmpe281.multitenant.DAO.MetadataDAO;
+import com.cmpe281.multitenant.Manager.DataManager;
 import com.cmpe281.multitenant.Manager.ProjectManager;
 import com.cmpe281.multitenant.Manager.UserManager;
+import com.cmpe281.multitenant.Model.Attribute;
 import com.cmpe281.multitenant.Model.Data;
 import com.cmpe281.multitenant.Model.MetaData;
 import com.cmpe281.multitenant.Model.Project;
 import com.cmpe281.multitenant.Model.User;
+import com.cmpe281.multitenant.Utility.ApplicationConstants;
 import com.cmpe281.multitenant.Utility.Utility;
 
 @Controller
@@ -40,7 +44,7 @@ public class HomeController {
 		
 		
 //		getMetaData();
-		getAllProjects();
+		setData();
 		
 		
 		return "home";
@@ -64,9 +68,14 @@ public class HomeController {
 		user.setEmail(userName);
 		user.setPassword(Utility.getEncryptedValue(password));
 
-		boolean signInResult;
+		boolean signInResult = false;
 
-		signInResult = UserManager.verifyLogin(user);
+		try {
+			signInResult = UserManager.verifyLogin(user);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		if(signInResult)
 			System.out.println("Login SuccessFul");
@@ -87,7 +96,12 @@ public class HomeController {
 		user.setPassword(Utility.getEncryptedValue(password));
 		user.setFullName(fullname);
 
-		UserManager.saveUser(user);
+		try {
+			UserManager.saveUser(user);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -143,6 +157,35 @@ public class HomeController {
 			if(project != null){
 				
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public String setData(){
+		
+		try {
+			
+			Data data = new Data();
+			
+			String projectId = "5540ba2a44ae0afe074b8b8e" ;
+			
+			data.setDataId(DataSequenceDAO.getNextDataId(ApplicationConstants.DATA_SEQ_KEY));
+			
+			ArrayList<Attribute> d = new ArrayList<Attribute>();
+			
+			Attribute a = new Attribute();
+			
+			a.setKey("Name");
+			a.setValue("Task Name 2");
+			
+			d.add(a);
+			
+			data.setAttributeValues(d);
+			
+			DataManager.saveData(data,projectId);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
