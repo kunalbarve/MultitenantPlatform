@@ -1,5 +1,6 @@
 package com.cmpe281.multitenant.Model;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -13,8 +14,10 @@ public class Project {
 	private String userId;
 	private String projectName;
 	private int tenantId;
+	private String sprintName;
+	private int sprintDuration;
+	private Date startDate; 
 	private List<Data> data;
-
 	public String getId() {
 		return id;
 	}
@@ -45,6 +48,26 @@ public class Project {
 	public void setData(List<Data> data) {
 		this.data = data;
 	}
+
+	public String getSprintName() {
+		return sprintName;
+	}
+	public void setSprintName(String sprintName) {
+		this.sprintName = sprintName;
+	}
+	public int getSprintDuration() {
+		return sprintDuration;
+	}
+	public void setSprintDuration(int sprintDuration) {
+		this.sprintDuration = sprintDuration;
+	}
+	public Date getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
 	
 	@Override
 	public String toString() {
