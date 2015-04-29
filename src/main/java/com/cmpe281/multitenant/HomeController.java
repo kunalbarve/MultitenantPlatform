@@ -44,7 +44,7 @@ public class HomeController {
 		
 		
 //		getMetaData();
-		setData();
+		saveUser();
 		
 		
 		return "home";
@@ -84,9 +84,10 @@ public class HomeController {
 	}
 
 	public void saveUser(){
-		String userName = "vishwa.desai@sjsu.edu";
+		
+		String userName = "komal.vohra@sjsu.edu";
 		String password = "password";
-		String fullname ="Vishwa Desai";
+		String fullname ="Komal Vohra";
 
 		if(userName == null||password == null){
 			//redirect to error page
