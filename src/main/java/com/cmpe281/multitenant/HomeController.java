@@ -40,6 +40,7 @@ public class HomeController {
 		
 		
 //		getMetaData();
+		getAllProjects();
 		
 		
 		return "home";
@@ -58,9 +59,6 @@ public class HomeController {
 
 		String userName = "vishwa.desai@sjsu.edu";
 		String password = "password";
-
-		if(userName == null){
-		}
 
 		User user = new User();
 		user.setEmail(userName);
@@ -116,12 +114,38 @@ public class HomeController {
 		
 		project.setData(data);
 
-		ProjectManager.saveProject(project);
+		try {
+			ProjectManager.saveProject(project);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public String getAllProjects(){
-		String userId = "";
-		
+		String userId = "Rutvik.dudhia2@gmail.com";
+		try {
+			List<Project> projectList = ProjectManager.getAllProjects(userId);
+			if(projectList.size() > 0){
+				for (Project project : projectList) {
+					System.out.println("Project"+project.toString());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public String getProject(){
+		String projectId = "";
+		try {
+			Project project = ProjectManager.getProject(projectId);
+			if(project != null){
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "";
 	}
 }
