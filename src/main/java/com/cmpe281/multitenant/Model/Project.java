@@ -72,7 +72,7 @@ public class Project {
 	@Override
 	public String toString() {
 		return "Project [id=" + id + ", userId=" + userId + ", projectName="
-				+ projectName + ", tenantId=" + tenantId + ", data=" + data
+				+ projectName + ", tenantId2=" + tenantId + ", data=" + data
 				+ "]";
 	}
 }
