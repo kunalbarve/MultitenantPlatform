@@ -49,7 +49,7 @@ public class HomeController {
 //		deleteData();
 		updateData();
 		
-		return "home";
+		return "project_screen";
 	}
 	
 	//-------------------------------------------------------------  User Mappings ------------------------------------------------------
