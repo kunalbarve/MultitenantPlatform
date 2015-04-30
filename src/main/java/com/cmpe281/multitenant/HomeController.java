@@ -6,14 +6,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpe281.multitenant.DAO.DataSequenceDAO;
 import com.cmpe281.multitenant.DAO.MetadataDAO;
@@ -50,11 +51,9 @@ public class HomeController {
 	//-------------------------------------------------------------  User Mappings ------------------------------------------------------
 	
 	@RequestMapping(value = "/signIn", method = RequestMethod.POST)
-	public String signIn(Model model,String userName,String password){
-
-		/*String userName = "komal.vohra@sjsu.edu";
-		String password = "alkadudhia";
-*/
+	public String signIn(HttpServletRequest request,Model model,String userName,String password){
+		
+	
 		System.out.println("Username :"+userName);
 		System.out.println("Passowrd :"+password);
 		User user = new User();
@@ -73,7 +72,12 @@ public class HomeController {
 		}
 
 		if(signInResult)
+		{
+		  
+		//  request.getSession().setAttribute("user", user);
+		  model.addAttribute("user",user);
 		  return "project_details";
+		}
 		else
 		 return "index";
 	}
