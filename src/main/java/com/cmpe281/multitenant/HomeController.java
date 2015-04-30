@@ -44,20 +44,15 @@ public class HomeController {
 		
 		
 //		getMetaData();
-		saveUser();
-		
+//		saveUser();
+//		getData();
+//		deleteData();
+		updateData();
 		
 		return "home";
 	}
 	
-	public String getMetaData(){
-		int tenantId = 2;
-		List<MetaData> metaDataDetails = MetadataDAO.getAttributeDetails(tenantId);
-		for (MetaData metaData : metaDataDetails) {
-			System.out.println("Metadata:"+metaData.toString());
-		}
-		return "";
-	}
+	//-------------------------------------------------------------  User Mappings ------------------------------------------------------
 	
 	public void signIn(){
 
@@ -105,7 +100,9 @@ public class HomeController {
 		}
 
 	}
-
+	
+	//-------------------------------------------------------------- Project Mappings ----------------------------------------------------
+	
 	public void saveProject(){
 
 		String userId = "Rutvik.dudhia2@gmail.com";
@@ -150,7 +147,6 @@ public class HomeController {
 		}
 		return "";
 	}
-	
 	public String getProject(){
 		String projectId = "";
 		try {
@@ -164,25 +160,20 @@ public class HomeController {
 		return "";
 	}
 	
+	//-------------------------------------------------------------- Data Mappings ----------------------------------------------------
+	
 	public String setData(){
-		
 		try {
-			
 			Data data = new Data();
-			
 			String projectId = "5540ba2a44ae0afe074b8b8e" ;
 			
 			data.setDataId(DataSequenceDAO.getNextDataId(ApplicationConstants.DATA_SEQ_KEY));
 			
 			ArrayList<Attribute> d = new ArrayList<Attribute>();
-			
 			Attribute a = new Attribute();
-			
 			a.setKey("Name");
 			a.setValue("Task Name 2");
-			
 			d.add(a);
-			
 			data.setAttributeValues(d);
 			
 			DataManager.saveData(data,projectId);
@@ -192,4 +183,72 @@ public class HomeController {
 		}
 		return "";
 	}
+	
+	public String getData(){
+		String projectId = "5540ba2a44ae0afe074b8b8e";
+		long dataId = 1;
+		Data finalData = null;
+		
+		try {
+			Project project = ProjectManager.getProject(projectId);
+			List<Data> dataList = (project.getData() != null ? project.getData() : new ArrayList<Data>());
+			for (Data data : dataList) {
+				if(data.getDataId() ==  dataId){
+					finalData = data;
+					break;
+				}
+			}
+			System.out.println("Data : "+finalData.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public String deleteData(){
+		String projectId = "5540bb6844ae39bf23f1e7f2";
+		long dataId = 3;
+		try {
+			Project project = ProjectManager.getProject(projectId);
+			DataManager.deleteData(project, dataId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public String updateData(){
+		String projectId = "5540bb6844ae39bf23f1e7f2";
+		Data data = new Data();
+		data.setDataId(4);
+		
+		List<Attribute> attrList = new ArrayList<Attribute>();
+		Attribute a = new Attribute();
+		a.setKey("Desciption");
+		a.setValue("Test Superb");
+		attrList.add(a);
+		
+		data.setAttributeValues(attrList);
+		
+		try {
+			Project project = ProjectManager.getProject(projectId);
+			DataManager.updateData(project, data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	//-------------------------------------------------------------- Meta data Mappings ----------------------------------------------------
+	
+	public String getMetaData(){
+		int tenantId = 2;
+		List<MetaData> metaDataDetails = MetadataDAO.getAttributeDetails(tenantId);
+		for (MetaData metaData : metaDataDetails) {
+			System.out.println("Metadata:"+metaData.toString());
+		}
+		return "";
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------
 }

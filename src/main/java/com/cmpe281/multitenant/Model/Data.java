@@ -23,7 +23,15 @@ public class Data {
 	
 	@Override
 	public String toString() {
-		return "Data [dataId=" + dataId + "]";
+		String temp = "";
+		for(Attribute attr : attributeValues){
+			temp = temp+"\n"+attr.toString();
+		}
+		
+		return "Data [dataId=" + dataId + ", attributeValues="
+				+ temp + "]";
 	}
+	
+	
 	
 }
