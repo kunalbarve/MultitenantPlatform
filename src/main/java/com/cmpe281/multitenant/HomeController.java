@@ -82,6 +82,13 @@ public class HomeController {
 		 return "index";
 	}
 
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public String signup(Model model){
+		
+		return "signup";
+		 
+	}
+	
 	public void saveUser(){
 		
 		String userName = "komal.vohra@sjsu.edu";

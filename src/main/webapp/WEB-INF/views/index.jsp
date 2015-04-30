@@ -45,6 +45,7 @@
 <input type="email" placeholder="email" ng-model="userName" value="" id="userName" name="userName" autofocus tabindex="1" size="20" data-ime-mode-disabled>
 <input type="password" placeholder="password" ng-model="password" value="" id="password" name="password" tabindex="2" size="20">
 <button type="submit" class="btn btn-primary navbar-btn" id="signIn" name="signIn">Sign in</button>
+<a href="signup">Sign up</a>
 </form>
 </div>
 </div>
