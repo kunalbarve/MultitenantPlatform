@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpe281.multitenant.DAO.DataSequenceDAO;
 import com.cmpe281.multitenant.DAO.MetadataDAO;
@@ -41,27 +43,25 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
-		
-		
-//		getMetaData();
-//		saveUser();
-//		getData();
-//		deleteData();
-		updateData();
-		
-		return "project_screen";
+	
+		return "index";
 	}
 	
 	//-------------------------------------------------------------  User Mappings ------------------------------------------------------
 	
-	public void signIn(){
+	@RequestMapping(value = "/signIn", method = RequestMethod.POST)
+	public String signIn(Model model,String userName,String password){
 
-		String userName = "vishwa.desai@sjsu.edu";
-		String password = "password";
-
+		/*String userName = "komal.vohra@sjsu.edu";
+		String password = "alkadudhia";
+*/
+		System.out.println("Username :"+userName);
+		System.out.println("Passowrd :"+password);
 		User user = new User();
 		user.setEmail(userName);
 		user.setPassword(Utility.getEncryptedValue(password));
+		
+		System.out.println("Sign In Called");
 
 		boolean signInResult = false;
 
@@ -73,9 +73,9 @@ public class HomeController {
 		}
 
 		if(signInResult)
-			System.out.println("Login SuccessFul");
+		  return "project_details";
 		else
-			System.out.println("Login Failed");
+		 return "index";
 	}
 
 	public void saveUser(){

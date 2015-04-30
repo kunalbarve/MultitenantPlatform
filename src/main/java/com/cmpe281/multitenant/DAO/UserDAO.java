@@ -13,8 +13,8 @@ public class UserDAO {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("email").is(user.getEmail()));
 		query.addCriteria(Criteria.where("password").is(user.getPassword()));
-		
 		user = MongoConfig.getMongoOperationsObj().findOne(query, User.class);
+		System.out.println(user.toString());
 	
 		return user;
 		

@@ -40,10 +40,12 @@
 
     <div class="container">
 <div style="float:right">
+<form action="signIn" method="post">
 <legend style="color:white;">Sign In</legend>
-<input type="email" placeholder="email" ng-model="inputUsername" name="inputUsername" value="" id="inputUsername" autofocus tabindex="1" size="20" data-ime-mode-disabled>
-<input type="password" placeholder="password" ng-model="inputPassword" name="inputPassword" value="" id="inputPassword" tabindex="2" size="20">
-<button type="button" class="btn btn-primary navbar-btn">Sign in</button>
+<input type="email" placeholder="email" ng-model="userName" value="" id="userName" name="userName" autofocus tabindex="1" size="20" data-ime-mode-disabled>
+<input type="password" placeholder="password" ng-model="password" value="" id="password" name="password" tabindex="2" size="20">
+<button type="submit" class="btn btn-primary navbar-btn" id="signIn" name="signIn">Sign in</button>
+</form>
 </div>
 </div>
 <br>
@@ -97,7 +99,7 @@
                         <strong>worth visiting</strong>
                     </h2>
                     <hr>
-                    <img class="img-responsive img-border img-left" src="img/intro-pic.jpg" alt="">
+                    <img class="img-responsive img-border img-left" src="<c:url value="/resources/img/intro-pic.jpg"/>" alt="">
                     <hr class="visible-xs">
                     <p>The boxes used in this template are nested inbetween a normal Bootstrap row and the start of your column layout. The boxes will be full-width boxes, so if you want to make them smaller then you will need to customize.</p>
                     <p>A huge thanks to <a href="http://join.deathtothestockphoto.com/" target="_blank">Death to the Stock Photo</a> for allowing us to use the beautiful photos that make this template really come to life. When using this template, make sure your photos are decent. Also make sure that the file size on your photos is kept to a minumum to keep load times to a minimum.</p>
@@ -145,6 +147,25 @@
         interval: 5000 //changes the speed
     })
     </script>
+<!--     
+    <script type="text/javascript">
+    $("#signIn").click( function()
+    {
+    		$.ajax({
+    		url: "signIn",
+    		type : "POST",
+    		data: { userName: $("#inputUsername").val(), password: $("#inputPassword").val() },
+    		success: function(data,textStatus,xhr){
+    			
+    				window.location= xhr.getResponseHeader("Location");
+    			
+    		}
+    		
+    	
+    }); 
+    	});
+    
+    </script> -->
 
 </body>
 
