@@ -175,15 +175,7 @@ public class HomeController {
 			System.out.println("My Project's Id:"+projectId);
 			Project project = ProjectManager.getProject(projectId);
 			if(project != null){
-				List<MetaData> metaDataList = MetadataDAO.getAttributeDetails(Integer.parseInt(tenantId.trim()));
-				List<Data> dataList = (project.getData() != null ? project.getData() : new ArrayList<Data>());	
-				dataList = arrangeAttributes(dataList, metaDataList);
-				
-				ProjectDetails details = new ProjectDetails();
-				details.setProjectName(project.getProjectName());
-				details.setData(dataList);
-				details.setMetaDataList(metaDataList);
-				
+				ProjectDetails details = ProjectManager.updateProjectUI(project, tenantId);
 				model.addAttribute("project", details);
 			}
 		} catch (Exception e) {
@@ -194,23 +186,7 @@ public class HomeController {
 	
 	//-------------------------------------------------------------- Data Mappings ----------------------------------------------------
 	
-	public List<Data> arrangeAttributes(List<Data> dataList, List<MetaData> metaDataList){
-		for(Data data: dataList){
-			HashMap<String, Attribute> attrMap = new HashMap<String, Attribute>();
-			for(Attribute attr: data.getAttributeValues()){
-				attrMap.put(attr.getKey(), attr);
-			}
-			
-			List<Attribute> attrList = new ArrayList<Attribute>();
-			
-			for(MetaData metaData : metaDataList){
-				Attribute attribute = (attrMap.get(metaData.getName()) != null ? attrMap.get(metaData.getName()) : new Attribute());
-				attrList.add(attribute);
-			}
-			data.setAttributeValues(attrList);
-		}
-		return dataList;
-	} 
+	
 	
 	public String setData(){
 		try {

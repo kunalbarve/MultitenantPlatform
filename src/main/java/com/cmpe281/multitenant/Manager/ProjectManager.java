@@ -1,9 +1,14 @@
 package com.cmpe281.multitenant.Manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.cmpe281.multitenant.DAO.MetadataDAO;
 import com.cmpe281.multitenant.DAO.ProjectDAO;
+import com.cmpe281.multitenant.Model.Data;
+import com.cmpe281.multitenant.Model.MetaData;
 import com.cmpe281.multitenant.Model.Project;
+import com.cmpe281.multitenant.VO.ProjectDetails;
 
 public class ProjectManager {
 
@@ -19,5 +24,16 @@ public class ProjectManager {
 		return ProjectDAO.getProject(projectId);
 	}
 	
+	public static ProjectDetails updateProjectUI(Project project, String tenantId){
+		List<MetaData> metaDataList = MetadataDAO.getAttributeDetails(Integer.parseInt(tenantId.trim()));
+		List<Data> dataList = (project.getData() != null ? project.getData() : new ArrayList<Data>());	
+		dataList = DataManager.arrangeAttributes(dataList, metaDataList);
+		
+		ProjectDetails details = new ProjectDetails();
+		details.setProjectName(project.getProjectName());
+		details.setData(dataList);
+		details.setMetaDataList(metaDataList);
+		return details;
+	}
 		
 }
