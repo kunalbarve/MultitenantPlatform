@@ -27,22 +27,61 @@
 <div class="container">
 <div class="row">
 	<div style="color: darkgray; margin-bottom: 10px; " class="col-md-5">
-	<strong>Project Name :</strong> ________________
+	<strong>Project Name : </strong> ${project.projectName} 
 	</div>
 	<div style="color: darkgray; margin-bottom: 10px; " class="col-md-5">
-	<strong>Status :</strong> ________________
+	<strong>Status :</strong>
 	</div>
 </div>
 
 <div class="row">
 	<div style="color: darkgray; margin-bottom: 10px; " class="col-md-10">
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat diam quis nisl vestibulum dignissim. In hac habitasse platea dictumst. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+		View Your Project Details
 	</div>
 </div>
 
+			<div class="row">
+				<div class="col-md-10">
+					<table class="table table-bordered table-hover table-condensed">
+				       <thead>
+					         <tr style="font-weight: bold">
+					         <c:forEach var="metadata" items="${project.metaDataList}">
+						          <th> <c:out value="${metadata.name}"/></th>
+					          </c:forEach>
+					          <th style="width:20%">Edit/Delete</th>
+					         </tr>
+				        </thead>
+				        <tbody>
+					        <c:forEach var="dataRow" items="${project.data}">
+						        <tr>
+						        	<c:forEach var="attribute" items="${dataRow.attributeValues}">
+						        		<td> <c:out value="${attribute.value}"/> </td>
+						        	</c:forEach>
+						        	
+						        	<td>
+								        <form editable-form name="rowform" onbeforesave="saveRecord($data, record.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == record">
+								          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+								            Save
+								          </button>
+								          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+								            Cancel
+								          </button>
+								        </form>
+								        <div class="buttons" ng-show="!rowform.$visible">
+								          <button class="btn btn-primary" ng-click="rowform.$show()">Edit</button>
+								          <button class="btn btn-danger" ng-click="removeUser($index)">Delete</button>
+								        </div>
+								      </td>
+						        </tr>
+					        </c:forEach>
+				       </tbody>
+				     </table>
+				</div>
+			</div>
+
 <div class="row">
 <div class="col-md-10" ng-controller="ProjectDetailsController">
-  <table class="table table-bordered table-hover table-condensed">
+  <!-- <table class="table table-bordered table-hover table-condensed">
     <tr style="font-weight: bold">
       <td style="width:20%">Attrib 1</td>
       <td style="width:20%">Attrib 2</td>
@@ -86,7 +125,7 @@
         </div>
       </td>
     </tr>
-  </table>
+  </table> -->
 
   <button class="btn btn-default" ng-click="addRecord()">Add</button>
 </div>

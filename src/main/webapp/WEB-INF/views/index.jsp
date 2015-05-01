@@ -39,16 +39,16 @@
     <div class="address-bar">Makes Project Managment Easier</div>
 
     <div class="container">
-<div style="float:right">
-<form action="signIn" method="post">
-<legend style="color:white;">Sign In</legend>
-<input type="email" placeholder="email" ng-model="userName" value="" id="userName" name="userName" autofocus tabindex="1" size="20" data-ime-mode-disabled>
-<input type="password" placeholder="password" ng-model="password" value="" id="password" name="password" tabindex="2" size="20">
-<button type="submit" class="btn btn-primary navbar-btn" id="signIn" name="signIn">Sign in</button>
-<a href="signup">Sign up</a>
-</form>
-</div>
-</div>
+		<div style="float:right">
+		<form action="signIn" method="post">
+		<legend style="color:white;">Sign In</legend>
+		<input type="email" placeholder="email" ng-model="userName" value="" id="userName" name="userName" autofocus tabindex="1" size="20" data-ime-mode-disabled>
+		<input type="password" placeholder="password" ng-model="password" value="" id="password" name="password" tabindex="2" size="20">
+		<button type="submit" class="btn btn-primary navbar-btn" id="signIn" name="signIn">Sign in</button>
+		<a href="signup">Sign up</a>
+		</form>
+		</div>
+	</div>
 <br>
     <div class="container">
 

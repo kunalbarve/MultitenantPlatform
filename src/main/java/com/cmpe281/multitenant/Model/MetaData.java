@@ -1,12 +1,21 @@
 package com.cmpe281.multitenant.Model;
 
+import java.util.List;
+
 public class MetaData {
 	
 	private int id;
 	private String name;
 	private String type;
 	private String reference;
+	private List<String> comboMetadata;	
 	
+	public List<String> getComboMetadata() {
+		return comboMetadata;
+	}
+	public void setComboMetadata(List<String> comboMetadata) {
+		this.comboMetadata = comboMetadata;
+	}
 	public int getId() {
 		return id;
 	}

@@ -13,11 +13,26 @@ public class Project {
 	private String id;
 	private String userId;
 	private String projectName;
+	private String description;
+	private String creationDate;
 	private int tenantId;
 	private String sprintName;
 	private int sprintDuration;
 	private Date startDate; 
 	private List<Data> data;
+	
+	public String getCreationDate() {
+		return creationDate;
+	}
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public String getId() {
 		return id;
 	}
@@ -67,12 +82,14 @@ public class Project {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-
 	
 	@Override
 	public String toString() {
 		return "Project [id=" + id + ", userId=" + userId + ", projectName="
-				+ projectName + ", tenantId=" + tenantId + ", data=" + data
-				+ "]";
+				+ projectName + ", description=" + description
+				+ ", creationDate=" + creationDate + ", tenantId=" + tenantId
+				+ ", sprintName=" + sprintName + ", sprintDuration="
+				+ sprintDuration + ", startDate=" + startDate + ", data="
+				+ data + "]";
 	}
 }

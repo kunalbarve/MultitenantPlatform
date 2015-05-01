@@ -1,6 +1,9 @@
 package com.cmpe281.multitenant.Utility;
 
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.mongodb.util.Base64Codec;
 
 public class Utility {
@@ -17,5 +20,24 @@ public class Utility {
 			e.printStackTrace();
 		}
 		return hashedValue;
+	}
+	
+	public static String convertDateToMMDDYYYYFormat(Date date){
+		 SimpleDateFormat dateformatMMDDYYYY = new SimpleDateFormat("MM/dd/yyyy");
+		 String dateStr = dateformatMMDDYYYY.format(date);
+		 return dateStr;
+	}
+	
+	public static Date convertMMDDYYYYFormatToDate(String str) {
+		
+		 SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy"); 
+		  Date convertedDate = null;
+		try {
+			convertedDate = dateFormat.parse(str);
+		} catch (Exception e) {
+			e.printStackTrace();	
+		}
+		return convertedDate; 
+		    
 	}
 }

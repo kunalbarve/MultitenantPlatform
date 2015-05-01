@@ -1,16 +1,13 @@
 package com.cmpe281.multitenant;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +25,7 @@ import com.cmpe281.multitenant.Model.Project;
 import com.cmpe281.multitenant.Model.User;
 import com.cmpe281.multitenant.Utility.ApplicationConstants;
 import com.cmpe281.multitenant.Utility.Utility;
+import com.cmpe281.multitenant.VO.ProjectDetails;
 
 @Controller
 public class HomeController {
@@ -38,20 +36,15 @@ public class HomeController {
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+//		saveProject();
 		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-	
 		return "index";
 	}
 	
 	//-------------------------------------------------------------  User Mappings ------------------------------------------------------
 	
 	@RequestMapping(value = "/signIn", method = RequestMethod.POST)
-	public String signIn(HttpServletRequest request,Model model,String userName,String password){
+	public String signIn(Model model,String userName,String password){
 		
 	
 		System.out.println("Username :"+userName);
@@ -66,72 +59,86 @@ public class HomeController {
 
 		try {
 			signInResult = UserManager.verifyLogin(user);
+			if(signInResult){
+				viewProjectDetails(user.getEmail(), model);
+				return "project_screen";
+			}else
+				return "index";
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return "index";
 		}
-
-		if(signInResult)
-		{
-		  
-		//  request.getSession().setAttribute("user", user);
-		  model.addAttribute("user",user);
-		  return "project_details";
-		}
-		else
-		 return "index";
-	}
-
-	@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	public String signup(Model model){
-		
-		return "signup";
-		 
 	}
 	
-	public void saveUser(){
-		
-		String userName = "komal.vohra@sjsu.edu";
-		String password = "password";
-		String fullname ="Komal Vohra";
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public String goToSignUp(){
+		return "add_project";
+	}
 
-		if(userName == null||password == null){
-			//redirect to error page
-		}
+	@RequestMapping(value = "/createUser", method = RequestMethod.POST)
+	public String signup(Model model, String email, String firstName, String lastName, String password){
+		
+		String fullname = firstName.trim()+ " "+ lastName.trim();
+
 		User user = new User();
-		user.setEmail(userName);
+		user.setEmail(email);
 		user.setPassword(Utility.getEncryptedValue(password));
 		user.setFullName(fullname);
 
 		try {
 			UserManager.saveUser(user);
+			return "index";
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return "signup";
 		}
-
 	}
 	
 	//-------------------------------------------------------------- Project Mappings ----------------------------------------------------
 	
-	public void saveProject(){
-
-		String userId = "Rutvik.dudhia2@gmail.com";
-		String projectName = "My Second Scrum";
-		int tenantId = 3;
-		String sprintName = "Sprint 2";
-		int sprintDuration = 10;
-		Date startDate = new Date();
-
-
+	public void viewProjectDetails(String userId, Model model){
+		try{
+			HashMap<Integer, String> tenantMap = MetadataDAO.getTenantDetails();
+			List<ProjectDetails> projectList = UserManager.getUserProjectDetails(userId, tenantMap);
+			model.addAttribute("projectDetails",projectList);
+			model.addAttribute("tenantMap",tenantMap);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value = "/createProject", method = RequestMethod.POST)
+	public String createProject(Model model, String projectType){
+		try {
+			HashMap<Integer, String> tenantMap = MetadataDAO.getTenantDetails();
+			model.addAttribute("tenantId", projectType);
+			String tenantType =  tenantMap.get(Integer.parseInt(projectType));
+			System.out.println("My Tenant Type"+tenantType);
+			model.addAttribute("tenantType",tenantType);
+			model.addAttribute("user", "kunal.barve@sjsu.edu");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "add_project";
+	}
+	
+	@RequestMapping(value = "/saveProject", method = RequestMethod.POST)
+	public String saveProject(Model model, String userId, int tenantId, String projectName, String description, String sprintName, String startDate, String duration){
+		String creationDate = Utility.convertDateToMMDDYYYYFormat(new Date());
 		Project project = new Project();
 
 		project.setUserId(userId);
 		project.setProjectName(projectName);
-		project.setSprintDuration(sprintDuration);
+		project.setCreationDate(creationDate);
+		project.setDescription(description);
 		project.setTenantId(tenantId);
-		project.setStartDate(startDate);
-		project.setSprintName(sprintName);
+		if(sprintName != null && startDate != null && duration != null){
+			Date startingDate = Utility.convertMMDDYYYYFormatToDate(startDate);
+			project.setSprintDuration(Integer.parseInt(duration));
+			project.setStartDate(startingDate);
+			project.setSprintName(sprintName);
+		}
 
 		ArrayList<Data>data = new ArrayList<Data> ();
 		
@@ -139,8 +146,11 @@ public class HomeController {
 
 		try {
 			ProjectManager.saveProject(project);
+			viewProjectDetails(userId, model);
+			return "project_screen";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "index";
 		}
 	}
 	
@@ -156,22 +166,51 @@ public class HomeController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "";
+		return "project_details";
 	}
-	public String getProject(){
-		String projectId = "";
+	
+	@RequestMapping(value = "/viewProject", method = RequestMethod.GET)
+	public String getProject(Model model, String projectId, String tenantId){
 		try {
+			System.out.println("My Project's Id:"+projectId);
 			Project project = ProjectManager.getProject(projectId);
 			if(project != null){
+				List<MetaData> metaDataList = MetadataDAO.getAttributeDetails(Integer.parseInt(tenantId.trim()));
+				List<Data> dataList = (project.getData() != null ? project.getData() : new ArrayList<Data>());	
+				dataList = arrangeAttributes(dataList, metaDataList);
 				
+				ProjectDetails details = new ProjectDetails();
+				details.setProjectName(project.getProjectName());
+				details.setData(dataList);
+				details.setMetaDataList(metaDataList);
+				
+				model.addAttribute("project", details);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "";
+		return "project_details";
 	}
 	
 	//-------------------------------------------------------------- Data Mappings ----------------------------------------------------
+	
+	public List<Data> arrangeAttributes(List<Data> dataList, List<MetaData> metaDataList){
+		for(Data data: dataList){
+			HashMap<String, Attribute> attrMap = new HashMap<String, Attribute>();
+			for(Attribute attr: data.getAttributeValues()){
+				attrMap.put(attr.getKey(), attr);
+			}
+			
+			List<Attribute> attrList = new ArrayList<Attribute>();
+			
+			for(MetaData metaData : metaDataList){
+				Attribute attribute = (attrMap.get(metaData.getName()) != null ? attrMap.get(metaData.getName()) : new Attribute());
+				attrList.add(attribute);
+			}
+			data.setAttributeValues(attrList);
+		}
+		return dataList;
+	} 
 	
 	public String setData(){
 		try {
