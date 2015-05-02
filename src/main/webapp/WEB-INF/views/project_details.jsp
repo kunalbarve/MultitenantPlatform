@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
-<%@ page import="com.cmpe281.multitenant.Utility.*" %>
-
 <html>
 
 <head>
@@ -91,23 +89,23 @@
 			<c:forEach var="metadata" items="${project.metaDataList}">
 			 <div class="form-group">
 			 	<label><c:out value="${metadata.name}"/> :</label>
-			 	<c:if test="${metadata.type == ApplicationConstants.TEXT_AREA}">
+			 	<c:if test="${metadata.type == 'TA'}">
 			 		<textarea id="${metadata.name}" class="form-control" name="${metadata.name}" form="addEditForm" placeholder="${metadata.name}"></textarea>
 			 	</c:if>
 			 	
-			 	<c:if test="${metadata.type == ApplicationConstants.TEXT_BOX}">
+			 	<c:if test="${metadata.type == 'TB'}">
 			 		<input id="${metadata.name}" class="form-control" type="text" name="${metadata.name}" placeholder="${metadata.name}" />
 			 	</c:if>
 			 	
-			 	<c:if test="${metadata.type == ApplicationConstants.CHECK_BOX}">
+			 	<c:if test="${metadata.type == 'CB'}">
 			 		<input id="${metadata.name}" type="checkbox" name="${metadata.name}" placeholder="${metadata.name}" />
 			 	</c:if>
 			 	
-			 	<c:if test="${metadata.type == ApplicationConstants.DATA_FIELD}">
+			 	<c:if test="${metadata.type == 'DF'}">
 			 		<input id="${metadata.name}" class="form-control" type="date" name="${metadata.name}" />
 			 	</c:if>
 			 	
-			 	<c:if test="${metadata.type == ApplicationConstants.COMBO_USER}">
+			 	<c:if test="${metadata.type == 'CR'}">
 			 		 <input type="hidden" id="${metadata.name}" name="${metadata.name}" value=""/>
 			 		 <select id="selectElement" data-val="${metadata.name}" class="form-control">
 					  <c:forEach var="user" items="${metadata.comboMetadata}">
@@ -116,7 +114,7 @@
 					</select> 
 			 	</c:if>
 			 	
-			 	<c:if test="${metadata.type == ApplicationConstants.COMBO_OTHER}">
+			 	<c:if test="${metadata.type == 'CO'}">
 			 		<input type="hidden" id="${metadata.name}" name="${metadata.name}" value=""/>
 			 		<select id="selectElement" data-val="${metadata.name}" class="form-control">
 					  <c:forEach var="item" items="${metadata.comboMetadata}">
