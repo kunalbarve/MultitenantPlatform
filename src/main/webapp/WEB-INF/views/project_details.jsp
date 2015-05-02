@@ -14,6 +14,7 @@
   
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
   <link href="<c:url value="/resources/css/xeditable.css" />" rel="stylesheet">
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
   
 </head>
 
@@ -136,7 +137,14 @@
 	</div> 
 </div>
 </div>   
+<div id="chart_div" style="margin-left :200px; width :600px">
 
+</div>
+<label hidden="true" id="graphData"> 
+<c:out value="${graphData}"></c:out></label>
+<label hidden="true" id="tenantdata"> 
+<c:out value="${tenantId}"></c:out> 
+</label>
 
 <footer style="margin-top: 50px;">
 	<div style="background-color:gray; height: 50px;">
@@ -162,7 +170,6 @@ $(document).ready(function(){
 	$("#selectElement").each(function() {
 		var valueT = $(this).val();
 		var idT = $(this).attr("data-val");
-		alert(valueT +" : "+ idT  );
 		$("#addRecordContainer #"+idT).val(valueT);
 	});
 });
@@ -198,6 +205,116 @@ function editRecord(dataId) {
         
     }
 	
+}
+</script>
+
+<script type="text/javascript">
+google.load('visualization', '1', {packages: ['corechart', 'line']});
+/*  */
+var dataArray;
+
+var stringParser = function()
+{
+	var data = document.getElementById('graphData').innerHTML;
+	
+	dataArray = data.split(",");
+	
+	
+	}
+
+function drawLineChart() {
+	stringParser();
+    var data = new google.visualization.DataTable();
+    data.addColumn('number', 'X');
+    data.addColumn('number', 'Points');
+    
+    var a=parseInt(dataArray[0]);
+    var b=parseInt(dataArray[1]);
+    var c=parseInt(dataArray[2]);
+    var d=parseInt(dataArray[3]);
+    
+	var dataString = "["+dataArray[0]+","+dataArray[1]+"],"+"["+dataArray[2]+","+dataArray[3]+"]";
+	alert(dataString.trim());
+    data.addRows([[a,b],[c,d]]);
+     var options = {
+      hAxis: {
+        title: 'Days'
+      },
+      vAxis: {
+        title: 'Points'
+      },
+      backgroundColor: '#f1f8e9'
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+  }
+
+/*----------------------------------------------- BarChar -------------------------------*/
+ 
+google.load('visualization', '1', {packages: ['corechart', 'bar']});
+function drawStacked() {
+	stringParser();
+	var a=parseInt(dataArray[0]);
+    var b=parseInt(dataArray[1]);
+    var c=parseInt(dataArray[2]);
+    
+      var data = google.visualization.arrayToDataTable([
+        ['Task Status', 'Number of Cards'],
+        ['Not Started',a],
+        ['In Progress', b],
+        ['Complete', c]
+         ]);
+
+      var options = {
+        title: 'No. of cards per status',
+        chartArea: {width: '50%'},
+        isStacked: true,
+        hAxis: {
+          title: 'Cards per status',
+          minValue: 0,
+        },
+        vAxis: {
+          title: 'Statuses'
+        }
+      };
+      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
+
+
+/*----------------------------------------------- Time Line Chart -------------------------------*/
+
+
+	google.load("visualization", "1", {packages:["timeline"]});
+	 
+	 function drawTimeLineChart() {
+        var container = document.getElementById('chart_div');
+        var chart = new google.visualization.Timeline(container);
+        var dataTable = new google.visualization.DataTable();
+		 dataTable.addColumn({ type: 'string', id: 'Task Names'});
+        dataTable.addColumn({ type: 'date', id: 'Start' });
+        dataTable.addColumn({ type: 'date', id: 'End' });
+        var valuesObject = JSON.parse(document.getElementById('graphData').innerHTML);
+        alert(valuesObject.graphDataList[1].task);
+        dataTable.addRows([[valuesObject.graphDataList[0].task, new Date(valuesObject.graphDataList[0].startDate), new Date(valuesObject.graphDataList[0].endDate)],
+          [valuesObject.graphDataList[1].task, new Date(valuesObject.graphDataList[1].startDate),  new Date(valuesObject.graphDataList[1].endDate) ],
+          [valuesObject.graphDataList[2].task,  new Date(valuesObject.graphDataList[2].startDate),  new Date(valuesObject.graphDataList[2].endDate)]]);
+        chart.draw(dataTable);
+      }
+  
+	 
+if(parseInt(document.getElementById('tenantdata').innerHTML) === 3)
+{
+	google.setOnLoadCallback(drawStacked);
+}
+else if(parseInt(document.getElementById('tenantdata').innerHTML) === 2)
+{
+	google.setOnLoadCallback(drawLineChart);
+}
+else
+{
+	google.setOnLoadCallback(drawTimeLineChart);
 }
 </script>
 

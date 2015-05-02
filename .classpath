@@ -25,5 +25,8 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/home/rutvik/Setup/gson-2.2.4-sources.jar"/>
+	<classpathentry kind="lib" path="/home/rutvik/Setup/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="/home/rutvik/Setup/gson-2.2.4-javadoc.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
