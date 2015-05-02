@@ -30,6 +30,8 @@ public class ProjectManager {
 		dataList = DataManager.arrangeAttributes(dataList, metaDataList);
 		
 		ProjectDetails details = new ProjectDetails();
+		details.setProjectId(project.getId());
+		details.setTenantId(project.getTenantId());
 		details.setProjectName(project.getProjectName());
 		details.setData(dataList);
 		details.setMetaDataList(metaDataList);

@@ -8,7 +8,7 @@ public class DatabaseConnector{
 	private static final String MYSQL_DB_NAME = "Multi_Tenant_Platform";
 	private static final String MYSQL_URL = "jdbc:mysql://localhost:3306/";
 	private static final String USER_NAME = "root";
-	private static final String PASSWORD = "kunal";
+	private static final String PASSWORD = "password";
 	private static Connection con = null;
 	
 	private static void connectToMYSQL(){
