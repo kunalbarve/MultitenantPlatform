@@ -119,19 +119,19 @@
                     <div class="row" align="center">
 					  <div class="col-sm-4">
 					  <figure>
-						  <img style="height:200px;width:200px" src="<c:url value="/resources/img/divya.jpg"/>"  alt="Kunal" width="304" height="228">
+						  <img style="height:200px;width:200px;border-radius: 25px; border: 2px solid black;" src="<c:url value="/resources/img/divya.jpg"/>"  alt="Divya" width="304" height="228">
 						  <figcaption><strong>Divya</strong></figcaption>
 					  </figure>
 					</div>
 					  <div class="col-sm-4">
 					 	<figure>
-						  <img style="height:200px;width:200px" src="<c:url value="/resources/img/kunal.jpg"/>"  alt="Kunal" width="304" height="228">
+						  <img style="height:200px;width:200px;border-radius: 25px; border: 2px solid black;" src="<c:url value="/resources/img/kunal.jpg"/>"  alt="Kunal" width="304" height="228">
 						  <figcaption><strong>Kunal</strong></figcaption>
 						</figure>
 					  </div>
 					  <div class="col-sm-4">
 					  <figure>
-					   <img style="height:200px;width:200px" src="<c:url value="/resources/img/komal.jpg"/>"  alt="Komal" width="304" height="228">
+					   <img style="height:200px;width:200px;border-radius: 25px; border: 2px solid black;" src="<c:url value="/resources/img/komal.jpg"/>"  alt="Komal" width="304" height="228">
 					   <figcaption><strong>Komal</strong></figcaption>
 					  </figure>
 					  </div>
@@ -140,13 +140,13 @@
 					<div class="row" align="center">
 					  <div class="col-xs-6">
 					  <figure>
-					  <img style="height:200px;width:200px" src="<c:url value="/resources/img/rutvik.jpg"/>"  alt="Rutvik" width="304" height="228">
+					  <img style="height:200px;width:200px;border-radius: 25px; border: 2px solid black;" src="<c:url value="/resources/img/rutvik.jpg"/>"  alt="Rutvik" width="304" height="228">
 					  <figcaption><strong>Rutvik</strong></figcaption>
 					  </figure>
 					  </div>
 					  <div class="col-xs-6">
 						<figure>
-						  <img style="height:200px;width:200px" src="<c:url value="/resources/img/vishwa.jpg"/>"  alt="Vishwa" width="304" height="228">
+						  <img style="height:200px;width:200px;border-radius: 25px; border: 2px solid black;" src="<c:url value="/resources/img/vishwa.jpg"/>"  alt="Vishwa" width="304" height="228">
 						  <figcaption><strong>Vishwa</strong></figcaption>
 						</figure>
 					  </div>
