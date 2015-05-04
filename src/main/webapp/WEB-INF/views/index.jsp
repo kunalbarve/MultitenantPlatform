@@ -89,8 +89,7 @@
                   </div>
             </div>
         </div>
-
-
+</div>
 
         <div class="row">
             <div class="box">
@@ -100,16 +99,16 @@
                         <br><strong>worth trying</strong>
                     </h2>
                     <hr>
-                    <img class="img-responsive img-border img-left" src="<c:url value="/resources/img/intro-pic.jpg"/>" alt="">
-                    <hr class="visible-xs">
-                    <p>We provide our users the capability to manage their projects. The twist being that the projects of different methodologies 
+                   <div align="center">We provide our users the capability to manage their projects. The twist being that the projects of different methodologies 
                     can be managed under one roof. Currently we support Waterfall, Scrum and Kanban methodologies. Users can create projects, 
-                    manage them and view their status too.</p>
+                    manage them and view their status too.</div>
                     <hr>
                     <h3 style="text-align: center;">Signup to learn more</h3>
                 </div>
             </div>
         </div>
+
+        
 
         <div class="row">
             <div class="box">
@@ -157,10 +156,9 @@
 					  opportunity which bought humongous benifits to each of us.</p></div>
                    </div>
             </div>
+            </div>
         </div>
-
-    </div>
-    <!-- /.container -->
+	    <!-- /.container -->
 
     <footer>
         <div class="container">
@@ -205,6 +203,5 @@
     </script> -->
 
 </body>
-
 </html>
 
