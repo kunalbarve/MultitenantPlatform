@@ -96,8 +96,8 @@
             <div class="box">
                 <div class="col-lg-12">
                     <hr>
-                    <h2 class="intro-text text-center">Build a website
-                        <strong>worth visiting</strong>
+                    <h2 class="intro-text text-center">Multiple Project Managment models Under One Roof
+                        <br><strong>worth visiting</strong>
                     </h2>
                     <hr>
                     <img class="img-responsive img-border img-left" src="<c:url value="/resources/img/intro-pic.jpg"/>" alt="">
