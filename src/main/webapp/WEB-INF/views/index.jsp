@@ -97,14 +97,16 @@
                 <div class="col-lg-12">
                     <hr>
                     <h2 class="intro-text text-center">Multiple Project Managment models Under One Roof
-                        <br><strong>worth visiting</strong>
+                        <br><strong>worth trying</strong>
                     </h2>
                     <hr>
                     <img class="img-responsive img-border img-left" src="<c:url value="/resources/img/intro-pic.jpg"/>" alt="">
                     <hr class="visible-xs">
-                    <p>The boxes used in this template are nested inbetween a normal Bootstrap row and the start of your column layout. The boxes will be full-width boxes, so if you want to make them smaller then you will need to customize.</p>
-                    <p>A huge thanks to <a href="http://join.deathtothestockphoto.com/" target="_blank">Death to the Stock Photo</a> for allowing us to use the beautiful photos that make this template really come to life. When using this template, make sure your photos are decent. Also make sure that the file size on your photos is kept to a minumum to keep load times to a minimum.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat diam quis nisl vestibulum dignissim. In hac habitasse platea dictumst. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                    <p>We provide our users the capability to manage their projects. The twist being that the projects of different methodologies 
+                    can be managed under one roof. Currently we support Waterfall, Scrum and Kanban methodologies. Users can create projects, 
+                    manage them and view their status too.</p>
+                    <hr>
+                    <h3 style="text-align: center;">Signup to learn more</h3>
                 </div>
             </div>
         </div>
@@ -113,13 +115,47 @@
             <div class="box">
                 <div class="col-lg-12">
                     <hr>
-                    <h2 class="intro-text text-center">Beautiful boxes
-                        <strong>to showcase your content</strong>
-                    </h2>
+                    <h2 class="intro-text text-center">About Us</h2>
                     <hr>
-                    <p>Use as many boxes as you like, and put anything you want in them! They are great for just about anything, the sky's the limit!</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat diam quis nisl vestibulum dignissim. In hac habitasse platea dictumst. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-                </div>
+                    <div class="row" align="center">
+					  <div class="col-sm-4">
+					  <figure>
+						  <img style="height:200px;width:200px" src="<c:url value="/resources/img/divya.jpg"/>"  alt="Kunal" width="304" height="228">
+						  <figcaption><strong>Divya</strong></figcaption>
+					  </figure>
+					</div>
+					  <div class="col-sm-4">
+					 	<figure>
+						  <img style="height:200px;width:200px" src="<c:url value="/resources/img/kunal.jpg"/>"  alt="Kunal" width="304" height="228">
+						  <figcaption><strong>Kunal</strong></figcaption>
+						</figure>
+					  </div>
+					  <div class="col-sm-4">
+					  <figure>
+					   <img style="height:200px;width:200px" src="<c:url value="/resources/img/komal.jpg"/>"  alt="Komal" width="304" height="228">
+					   <figcaption><strong>Komal</strong></figcaption>
+					  </figure>
+					  </div>
+					</div>
+					<br>
+					<div class="row" align="center">
+					  <div class="col-xs-6">
+					  <figure>
+					  <img style="height:200px;width:200px" src="<c:url value="/resources/img/rutvik.jpg"/>"  alt="Rutvik" width="304" height="228">
+					  <figcaption><strong>Rutvik</strong></figcaption>
+					  </figure>
+					  </div>
+					  <div class="col-xs-6">
+						<figure>
+						  <img style="height:200px;width:200px" src="<c:url value="/resources/img/vishwa.jpg"/>"  alt="Vishwa" width="304" height="228">
+						  <figcaption><strong>Vishwa</strong></figcaption>
+						</figure>
+					  </div>
+					  </div>
+                   		<hr>
+					  <div align=center><p>We started this project with an idea introduced to us by our Professor Ngyuen at SJSU. We would like to thank him for this 
+					  opportunity which bought humongous benifits to each of us.</p></div>
+                   </div>
             </div>
         </div>
 
@@ -130,7 +166,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>Copyright &copy;<br> multitenantapplication-projectmanagment.rhcloud.com</p>
                 </div>
             </div>
         </div>
