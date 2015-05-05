@@ -103,7 +103,7 @@
                     can be managed under one roof. Currently we support Waterfall, Scrum and Kanban methodologies. Users can create projects, 
                     manage them and view their status too.</div>
                     <hr>
-                    <h3 style="text-align: center;">Signup to learn more</h3>
+                    <a href="signup"><h3 style="text-align: center;">Signup to learn more</h3></a>
                 </div>
             </div>
         </div>

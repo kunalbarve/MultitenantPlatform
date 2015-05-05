@@ -144,12 +144,6 @@
 <c:out value="${tenantId}"></c:out> 
 </label>
 
-<footer style="margin-top: 50px;">
-	<div style="background-color:gray; height: 50px;">
-	<p style="text-align: center; padding: 15px;">© Copyright</p>
-	</div>
-</footer>
-
 </body>
 
 

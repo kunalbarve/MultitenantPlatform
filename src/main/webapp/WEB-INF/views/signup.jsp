@@ -29,7 +29,7 @@
 
 	<div class="row">
 		<div class="col-md-10" ng-controller="SignUpController">
-	  		<h3 ng-show="edit">Create New User:</h3>
+	  		<div align="center"><h3 ng-show="edit">Register</h3></div>
 			
 			<form class="form-horizontal" action="createUser" method="post">
 			  <div class="form-group">
@@ -65,10 +65,11 @@
 			
 			
 				<hr>
+				<div align="center">
 				<button class="btn btn-success" type="submit">
 				<span class="glyphicon glyphicon-save"></span>  Sign Up
 				</button>
-			
+			</div>
 			</form>
 
 		</div>
@@ -76,12 +77,7 @@
 
 </div>
 
-<footer style="margin-top: 50px;">
-<div style="background-color:gray; height: 50px;">
-<p style="text-align: center; padding: 15px;">© Copyright</p>
-</div>
-</footer>
-    
+
     
    
 </body>
