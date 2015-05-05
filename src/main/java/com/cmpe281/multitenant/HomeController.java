@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cmpe281.multitenant.DAO.DataSequenceDAO;
 import com.cmpe281.multitenant.DAO.MetadataDAO;
-import com.cmpe281.multitenant.GraphData.WaterFallGraphDataContainer;
-import com.cmpe281.multitenant.GraphData.WaterfallGraphData;
 import com.cmpe281.multitenant.Manager.DataManager;
 import com.cmpe281.multitenant.Manager.ProjectManager;
 import com.cmpe281.multitenant.Manager.UserManager;
@@ -34,7 +32,6 @@ import com.cmpe281.multitenant.Model.User;
 import com.cmpe281.multitenant.Utility.ApplicationConstants;
 import com.cmpe281.multitenant.Utility.Utility;
 import com.cmpe281.multitenant.VO.ProjectDetails;
-import com.google.gson.Gson;
 
 @Controller
 public class HomeController {
@@ -187,20 +184,9 @@ public class HomeController {
 			System.out.println("My Project's Id:"+projectId);
 			Project project = ProjectManager.getProject(projectId);
 			if(project != null){
-				ProjectDetails details = ProjectManager.updateProjectUI(project, tenantId);
+				ProjectDetails details = ProjectManager.updateProjectUI(project, tenantId, model);
 				model.addAttribute("project", details);
-				if(tenantId.equals("1"))
-				{
-					model.addAttribute("graphData",getWaterFallData(projectId));
-				}
-				else if(tenantId.equals("2"))
-				{
-					model.addAttribute("graphData",getScrumData(projectId));
-				}
-				else if(tenantId.equals("3"))
-				{
-					model.addAttribute("graphData",getKanbanData(projectId));
-				}
+				
 			}
 			model.addAttribute("tenantId", tenantId);
 		} catch (Exception e) {
@@ -212,6 +198,7 @@ public class HomeController {
 	//-------------------------------------------------------------- Data Mappings ----------------------------------------------------
 
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/saveData", method = RequestMethod.POST)
 	public String setData(HttpServletRequest request, @RequestParam Map<String,String> allRequestParams, Model model) {
 		try {
@@ -247,7 +234,7 @@ public class HomeController {
 			DataManager.saveData(data,projectId);
 			Project project = ProjectManager.getProject(projectId);
 			if(project != null){
-				ProjectDetails details = ProjectManager.updateProjectUI(project, tenantId);
+				ProjectDetails details = ProjectManager.updateProjectUI(project, tenantId, model);
 				model.addAttribute("project", details);
 			}
 			System.out.println("----> exiting setData");
@@ -285,7 +272,7 @@ public class HomeController {
 			Project project = ProjectManager.getProject(projectId);
 			DataManager.deleteData(project, Long.parseLong(dataId));
 			if(project != null){
-				ProjectDetails details = ProjectManager.updateProjectUI(project, tenantId);
+				ProjectDetails details = ProjectManager.updateProjectUI(project, tenantId, model);
 				model.addAttribute("project", details);
 			}
 		} catch (Exception e) {
@@ -294,6 +281,7 @@ public class HomeController {
 		return "project_details";
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/updateData", method = RequestMethod.POST)
 	public String updateData(HttpServletRequest request, Model model){
 		System.out.println("----> Update function");
@@ -329,7 +317,7 @@ public class HomeController {
 			Project project = ProjectManager.getProject(projectId);
 			DataManager.updateData(project, data);
 			if(project != null){
-				ProjectDetails details = ProjectManager.updateProjectUI(project, tenantId);
+				ProjectDetails details = ProjectManager.updateProjectUI(project, tenantId, model);
 				model.addAttribute("project", details);
 			}
 		} catch (Exception e) {
@@ -349,153 +337,6 @@ public class HomeController {
 		return "";
 	}
 
-	//-----------------------------------------------------------------Graph Mappings--------------------------------------------------
 	
-	public String getKanbanData(String projectId)
-	{
-		Project project;
-		String result ="";
-		try {
-			project = ProjectManager.getProject(projectId);
-			int notStartedCount = 0;
-			int inProgressCount = 0;
-			int completedCount = 0;
-
-			List<Data> dataList = project.getData();
-			List<Attribute> attributeList;
-			for (Data data : dataList) {
-				attributeList =	data.getAttributeValues();
-				for (Attribute attribute : attributeList) {
-					if(attribute.getValue().equals("Not Started"))
-					{
-						notStartedCount++;
-					}
-					else if(attribute.getValue().equals("Progress"))
-					{
-						inProgressCount++;
-					}
-					else if(attribute.getValue().equals("Completed"))
-					{
-						completedCount++;
-					}
-				}
-			}
-			result = "'"+notStartedCount+"','"+inProgressCount+",'"+completedCount+"'";
-
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
-
-	}
-
-	public String getScrumData(String projectId)
-	{
-		Project project;
-		String result ="";
-		int completedPoints = 0;
-		int totalPoints = 0;
-		Date startDate=null;
-		Date currentDate = new Date();
-		try {
-			project = ProjectManager.getProject(projectId);
-			startDate = project.getStartDate();
-			List<Data> dataList = project.getData();
-			List<Data> completedStoryList = new ArrayList<Data>();
-			List<Attribute> attributeList;
-			for (Data data : dataList) {
-				attributeList =	data.getAttributeValues();
-				for (Attribute attribute : attributeList) {
-					if(attribute.getKey().equals("Status") && ! attribute.getValue().equalsIgnoreCase(null))
-					{
-						completedStoryList.add(data);
-
-					}
-
-					if(attribute.getKey().equals("Points"))
-					{
-						totalPoints+= Integer.parseInt(attribute.getValue());
-
-					}
-
-				}
-			}
-			for (Data completeStory : completedStoryList) {
-
-				attributeList =	completeStory.getAttributeValues();
-				for (Attribute attribute : attributeList) {
-					if(attribute.getKey().equals("Points"))
-					{
-						completedPoints+= Integer.parseInt(attribute.getValue()); 
-
-					}
-
-				}
-
-			}
-			result = "0,"+totalPoints+","+startDate.compareTo(currentDate)+","+completedPoints;
-
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(result);
-		return result;
-
-	}
-
-	public String getWaterFallData(String projectId)
-	{
-		Project project;
-		String json ="";
-
-		try {
-			project = ProjectManager.getProject(projectId);
-
-			List<Data> dataList = project.getData();
-			List<Attribute> attributeList;
-			WaterFallGraphDataContainer graphDataContainer = new WaterFallGraphDataContainer();
-			WaterfallGraphData waterfallGraphData;
-			for (Data data : dataList) {
-				waterfallGraphData = new WaterfallGraphData();
-				attributeList =	data.getAttributeValues();
-				for (Attribute attribute : attributeList) {
-					System.out.println(attribute.getKey());
-							if(attribute.getKey().equalsIgnoreCase("Name"))
-					{
-						waterfallGraphData.setTask(attribute.getValue());
-
-					}
-
-					if(attribute.getKey().equalsIgnoreCase("Start Date"))
-					{
-						waterfallGraphData.setStartDate(attribute.getValue());
-
-					}
-					if(attribute.getKey().equalsIgnoreCase("End Date"))
-					{
-						waterfallGraphData.setEndDate(attribute.getValue());
-
-					}
-
-				}
-				graphDataContainer.getGraphDataList().add(waterfallGraphData);
-
-			}
-			Gson gson = new Gson();
-			json = gson.toJson(graphDataContainer);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(json);
-		return json;
-
-	}
-
 }
 

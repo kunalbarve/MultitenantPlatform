@@ -256,7 +256,7 @@ function drawStacked() {
 	var a=parseInt(dataArray[0]);
     var b=parseInt(dataArray[1]);
     var c=parseInt(dataArray[2]);
-    
+    alert(dataArray);
       var data = google.visualization.arrayToDataTable([
         ['Task Status', 'Number of Cards'],
         ['Not Started',a],
