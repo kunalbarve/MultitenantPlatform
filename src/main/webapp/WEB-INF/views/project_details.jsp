@@ -288,11 +288,11 @@ function drawStacked() {
         dataTable.addColumn({ type: 'date', id: 'Start' });
         dataTable.addColumn({ type: 'date', id: 'End' });
         var valuesObject = JSON.parse(document.getElementById('graphData').innerHTML);
-        alert(valuesObject.graphDataList[1].task);
-        dataTable.addRows([[valuesObject.graphDataList[0].task, new Date(valuesObject.graphDataList[0].startDate), new Date(valuesObject.graphDataList[0].endDate)],
-          [valuesObject.graphDataList[1].task, new Date(valuesObject.graphDataList[1].startDate),  new Date(valuesObject.graphDataList[1].endDate) ],
-          [valuesObject.graphDataList[2].task,  new Date(valuesObject.graphDataList[2].startDate),  new Date(valuesObject.graphDataList[2].endDate)]]);
-        chart.draw(dataTable);
+        for (index = 0; index < valuesObject.graphDataList.length ; ++index) 
+        {
+        	dataTable.addRows([[valuesObject.graphDataList[index].task, new Date(valuesObject.graphDataList[index].startDate), new Date(valuesObject.graphDataList[index].endDate)]]);
+        }
+        	chart.draw(dataTable);
       }
   
 	 

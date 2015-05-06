@@ -95,7 +95,7 @@ public class ProjectManager {
 				}
 				result = notStartedCount+","+inProgressCount+","+completedCount;
 				
-				System.out.println("The result is " +result);
+				
 
 
 			} catch (Exception e) {
@@ -112,6 +112,7 @@ public class ProjectManager {
 			String result ="";
 			int completedPoints = 0;
 			int totalPoints = 0;
+			int remainingPoints = 0;
 			Date startDate=null;
 			Date currentDate = new Date();
 			try {
@@ -123,15 +124,19 @@ public class ProjectManager {
 				for (Data data : dataList) {
 					attributeList =	data.getAttributeValues();
 					for (Attribute attribute : attributeList) {
-						if(attribute.getKey().equals("Status") && ! attribute.getValue().equalsIgnoreCase(null))
+						System.out.println(attribute.getKey().toString());
+						if(attribute.getKey().trim().equalsIgnoreCase("Remaining Points"))
 						{
-							completedStoryList.add(data);
+							remainingPoints+= Integer.parseInt(attribute.getValue().trim());
+							
+							System.out.println("Remaining Points"+remainingPoints);
 
 						}
 
-						if(attribute.getKey().equals("Points"))
+						if(attribute.getKey().equalsIgnoreCase("Total Points"))
 						{
-							totalPoints+= Integer.parseInt(attribute.getValue());
+							System.out.println("The result is"+attribute.getValue());
+							totalPoints+= Integer.parseInt(attribute.getValue().trim());
 
 						}
 
@@ -143,14 +148,16 @@ public class ProjectManager {
 					for (Attribute attribute : attributeList) {
 						if(attribute.getKey().equals("Points"))
 						{
-							completedPoints+= Integer.parseInt(attribute.getValue()); 
+							System.out.println("Completed points"+attribute.getValue() );
+							completedPoints+= Integer.parseInt(attribute.getValue().trim()); 
+							
 
 						}
 
 					}
 
 				}
-				result = "0,"+totalPoints+","+startDate.compareTo(currentDate)+","+completedPoints;
+				result = "0,"+totalPoints+","+currentDate.compareTo(startDate)+","+remainingPoints;
 			
 
 			} catch (Exception e) {
