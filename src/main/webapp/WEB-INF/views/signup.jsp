@@ -5,8 +5,18 @@
 <html ng-app="app">
 
 <head>
-  <title>Add Project</title>
+  <title>Register</title>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+   <!-- Bootstrap Core CSS -->
+    <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="<c:url value="/resources/css/business-casual.css"/>" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+  
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
   <link href="<c:url value="/resources/css/xeditable.css" />" rel="stylesheet">
   <script src="<c:url value="/resources/js/xeditable.js" />"></script>
@@ -16,19 +26,24 @@
 <body>
 
 <header style="margin-bottom: 20px;">
-<div style="background-color:gray; height: 100px; ">
+<div style="height: 100px; ">
+<div class="brand">Multitenant Project Managment</div>
+<div class="address-bar">Makes Project Managment Easier</div>
 </div>
 </header>
 
+
 <div class="container">
 	<div class="row">
-		<div style="color: darkgray; margin-bottom: 10px; " class="col-md-10">
+		<hr>
+		<div style="color: white; margin-bottom: 10px; " class="col-md-10">
 		Enter Your details!!
 		</div>
 	</div>
 
 	<div class="row">
-		<div class="col-md-10" ng-controller="SignUpController">
+	<div class="box">
+		<div class="col-md-12" ng-controller="SignUpController">
 	  		<div align="center"><h3 ng-show="edit">Register</h3></div>
 			
 			<form class="form-horizontal" action="createUser" method="post">
@@ -73,6 +88,7 @@
 			</form>
 
 		</div>
+	</div>
 	</div>
 
 </div>

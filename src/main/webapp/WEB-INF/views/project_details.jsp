@@ -4,11 +4,23 @@
 <html>
 
 <head>
-  <title>Projects</title>
+  <title>Project Details</title>
   
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  
+  <!-- Bootstrap Core CSS -->
+    <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="<c:url value="/resources/css/business-casual.css"/>" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+	  
+	  
   
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
   <link href="<c:url value="/resources/css/xeditable.css" />" rel="stylesheet">
@@ -20,27 +32,31 @@
 <body>
 
 <header style="margin-bottom: 20px;">
-<div style="background-color:gray; height: 100px; ">
-</div>
-</header>
+			<div style="height: 100px; ">
+			<div class="brand">Multitenant Project Managment</div>
+			<div class="address-bar">Makes Project Managment Easier</div>
+			</div>
+	</header>
 
 <div class="container">
 <div class="row">
-	<div style="color: darkgray; margin-bottom: 10px; " class="col-md-5">
+<hr/>
+	<div style="color: white; margin-bottom: 10px; " class="col-md-5">
 	<strong>Project Name : </strong> ${project.projectName} 
 	</div>
-	<div style="color: darkgray; margin-bottom: 10px; " class="col-md-5">
+	<div style="color: white; margin-bottom: 10px; " class="col-md-5">
 	<strong>Status :</strong>
 	</div>
 </div>
 
 <div class="row">
-	<div style="color: darkgray; margin-bottom: 10px; " class="col-md-10">
+	<div style="color: white; margin-bottom: 10px; " class="col-md-10">
 		View Your Project Details
 	</div>
 </div>
 
 <div class="row">
+	<div class="box">
 	<div class="col-md-10">
 		<table id="projectDetails" class="table table-striped table-bordered" cellspacing="0" width="100%">
 	       <thead>
@@ -74,12 +90,14 @@
 	     </table>
 	     <button id="addRecordBtn" class="btn btn-default">Add</button>
 	</div>
+	</div>
 </div>
   
 </div>
 
 <div id="addRecordContainer" class="container" style="display:none; margin-top:50px;">    
 <div class="row">
+<div class="box">
 	<div class="col-md-3">
 	<form id="addEditForm" method="POST" action="saveData">
 	<input type="hidden" id="tenantId" name="tenantId" value="${project.tenantId}"/>
@@ -134,8 +152,14 @@
 		</form>
 	</div> 
 </div>
-</div>   
+</div>
+</div>
+
+<div class="row">
+<div class="box">    
 <div id="chart_div" style="margin-left :200px; width :600px">
+</div>
+</div>
 
 </div>
 <label hidden="true" id="graphData"> 
@@ -293,7 +317,7 @@ function drawLineChart() {
     var d=parseInt(dataArray[3]);
     
 	var dataString = "["+dataArray[0]+","+dataArray[1]+"],"+"["+dataArray[2]+","+dataArray[3]+"]";
-	alert(dataString.trim());
+	//alert(dataString.trim());
     data.addRows([[a,b],[c,d]]);
      var options = {
       hAxis: {
@@ -317,7 +341,7 @@ function drawStacked() {
 	var a=parseInt(dataArray[0]);
     var b=parseInt(dataArray[1]);
     var c=parseInt(dataArray[2]);
-    alert(dataArray);
+    //alert(dataArray);
       var data = google.visualization.arrayToDataTable([
         ['Task Status', 'Number of Cards'],
         ['Not Started',a],
