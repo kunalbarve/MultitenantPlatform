@@ -186,9 +186,7 @@ public class HomeController {
 			if(project != null){
 				ProjectDetails details = ProjectManager.updateProjectUI(project, tenantId, model);
 				model.addAttribute("project", details);
-				
 			}
-			model.addAttribute("tenantId", tenantId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

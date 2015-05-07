@@ -56,7 +56,7 @@
 		        <c:forEach var="dataRow" items="${project.data}">
 		        	<tr id="${dataRow.dataId}">
 		        	<c:forEach var="attribute" items="${dataRow.attributeValues}">
-		        			<td id="${attribute.key}"> <c:out value="${attribute.value}"/> </td>
+		        			<td id="${attribute.key}"> <c:out value="${empty attribute.value ? 'No Value' : attribute.value}"/> </td>
 		        	</c:forEach>
 		        	<td>
 				        <div class="buttons">
@@ -98,16 +98,16 @@
 			 	</c:if>
 			 	
 			 	<c:if test="${metadata.type == 'CB'}">
-			 		<input id="${metadata.name}" type="checkbox" name="${metadata.name}" placeholder="${metadata.name}" />
+			 		<input id="${metadata.name}" type="checkbox" name="${metadata.name}" placeholder="${metadata.name}" checked/>
 			 	</c:if>
 			 	
 			 	<c:if test="${metadata.type == 'DF'}">
-			 		<input id="${metadata.name}" class="form-control" type="date" name="${metadata.name}" />
+			 		<input id="${metadata.name}" class="form-control" type="text" name="${metadata.name}" placeholder="mm/dd/yyyy"/>
 			 	</c:if>
 			 	
 			 	<c:if test="${metadata.type == 'CR'}">
-			 		 <input type="hidden" id="${metadata.name}" name="${metadata.name}" value=""/>
-			 		 <select id="selectElement" data-val="${metadata.name}" class="form-control">
+			 		 <input type="hidden" id="${metadata.name}" name="${metadata.name}" class="form-control" value=""/>
+			 		 <select id="selectElement1" data-val="${metadata.name}" class="form-control">
 					  <c:forEach var="user" items="${metadata.comboMetadata}">
 					  	<option value="${user}">${user}</option>
 					  </c:forEach>
@@ -115,8 +115,8 @@
 			 	</c:if>
 			 	
 			 	<c:if test="${metadata.type == 'CO'}">
-			 		<input type="hidden" id="${metadata.name}" name="${metadata.name}" value=""/>
-			 		<select id="selectElement" data-val="${metadata.name}" class="form-control">
+			 		<input type="hidden" id="${metadata.name}" name="${metadata.name}" class="form-control" value=""/>
+			 		<select id="selectElement2" data-val="${metadata.name}" class="form-control">
 					  <c:forEach var="item" items="${metadata.comboMetadata}">
 					  	<option value="${item}">${item}</option>
 					  </c:forEach>
@@ -128,7 +128,7 @@
 			<div class="form-group">
 				<button id="editBtn" type="button" class="btn btn-primary" style="display:none;" >Edit</button>
 			   <button id="saveBtn" type="submit" class="btn btn-primary" >Save</button>
-			   <button class="btn btn-danger" type="reset" >Cancel</button>
+			   <button id="cancelBtn" class="btn btn-danger" type="button" >Cancel</button>
 			</div>
 			
 		</form>
@@ -148,56 +148,123 @@
 
 
 <script>
-$(document).ready(function(){
-		
-	$("#editBtn").click(function() {
-		$("#addEditForm").attr("action", "updateData");
-		$("#addEditForm").submit();
-	});
-	
-	$("#addRecordBtn").click(function() {
-		$("#addRecordContainer").show();
-	});
-	
-	$("#selectElement").each(function() {
-		var valueT = $(this).val();
-		var idT = $(this).attr("data-val");
-		$("#addRecordContainer #"+idT).val(valueT);
-	});
-});
 
-function editRecord(dataId) {
-	$("#addRecordContainer").show();
-	$("#addRecordContainer #dataId").val(dataId);
-	
-	$("#editBtn").show();
-	$("#saveBtn").hide();
-	
-	var row = document.getElementById(dataId);
-	var cells = row.getElementsByTagName('td');
-	
-    for (var i=0; i<cells.length-1; i++) {
-        var attrId = cells[i].id;
-        
-        if($("#addRecordContainer #"+attrId).attr("type")=="date") {
-        	alert("date");
-        	$("#addRecordContainer #"+attrId).val(new Date(cells[i].textContent));
-        } else if ($("#addRecordContainer #"+attrId).attr("type")=="checkbox") {
-        	alert("checkbox" + attrId);
-        	if(cells[i].textContent != null) {
-        		$("#addRecordContainer #"+attrId).prop('checked', true);
-        	} else {
-        		$("#addRecordContainer #"+attrId).prop('checked', false);
-        	}
-        } else {
-        	alert("others");
-        	$("#addRecordContainer #"+attrId).val(cells[i].textContent);
-        }
-        
-        
-    }
-	
-}
+	$(document).ready(function() {
+
+		$("#editBtn").click(function() {
+			$("#addEditForm").attr("action", "updateData");
+			$("#addEditForm").submit();
+		});
+
+		$("#addRecordBtn").click(function() {
+			$('#addEditForm')[0].reset();
+			$("#editBtn").hide();
+			$("#saveBtn").show();
+			$("#addRecordContainer").show();
+		});
+
+		$("#cancelBtn").click(function() {
+			$("#addRecordContainer").hide();
+		});
+
+
+		$('#addEditForm input[type="checkbox"]').each(function(){
+		     if($(this).attr('checked')){
+		          $(this).val('Complete');
+		          //alert("in checked");
+		     }else{
+		    	 //alert("in unchecked");
+		          $(this).val('Not Complete');
+		     }
+		});
+		
+		$('#addEditForm input[type="checkbox"]').change(function(){
+		     if($(this).attr('checked')){
+		    	 //alert("in checked");
+		    	  $(this).prop('checked', false);
+		          $(this).val('Not Complete');
+		     }else{
+		    	 //alert("in unchecked");
+		    	 $(this).prop('checked', true);
+		          $(this).val('Complete');
+		     }
+		});
+		
+		$("#addRecordContainer").find("#selectElement2").each(function() {
+			var valueT = $(this).val();
+			var idT = $(this).attr("data-val");
+			//$("#addRecordContainer #"+idT).val(valueT);
+			$("[id='" + idT + "']").val(valueT);
+			//alert($("[id='" + idT + "']").val());
+		});
+
+		$("#addRecordContainer").find("#selectElement2").change(function() {
+			var valueT = $(this).val();
+			var idT = $(this).attr("data-val");
+			//alert("in change funcrtion");
+			//$("#addRecordContainer #"+idT).val(valueT);
+			$("[id='" + idT + "']").val(valueT);
+			//alert($("[id='" + idT + "']").val());
+		});
+
+		$("#addRecordContainer").find("#selectElement1").each(function() {
+			var valueT = $(this).val();
+			var idT = $(this).attr("data-val");
+			//$("#addRecordContainer #"+idT).val(valueT);
+			$("[id='" + idT + "']").val(valueT);
+			//alert($("[id='" + idT + "']").val());
+		});
+
+		$("#addRecordContainer").find("#selectElement1").change(function() {
+			var valueT = $(this).val();
+			var idT = $(this).attr("data-val");
+			//alert("in change funcrtion");
+			//$("#addRecordContainer #"+idT).val(valueT);
+			$("[id='" + idT + "']").val(valueT);
+			//alert($("[id='" + idT + "']").val());
+		});
+	});
+
+	function editRecord(dataId) {
+		$("#addRecordContainer").show();
+		$("#addRecordContainer #dataId").val(dataId);
+
+		$("#editBtn").show();
+		$("#saveBtn").hide();
+
+		var row = document.getElementById(dataId);
+		var cells = row.getElementsByTagName('td');
+
+		for (var i = 0; i < cells.length - 1; i++) {
+			var attrId = cells[i].id;
+			//alert("attrId : "+attrId);
+			if ($("#addRecordContainer #" + attrId).attr("type") == "checkbox") {
+				//alert("checkbox" + attrId);
+				if ($.trim(cells[i].textContent) == "Complete") {
+					$("#addRecordContainer #" + attrId).prop('checked', true);
+					$("#addRecordContainer #" + attrId).val($.trim(cells[i].textContent));
+				} else if ($.trim(cells[i].textContent) == "Not Complete") {
+					$("#addRecordContainer #" + attrId).prop('checked', false);
+					$("#addRecordContainer #" + attrId).val($.trim(cells[i].textContent));
+				}
+			} else {
+				//alert(cells[i].id + " : others : " + cells[i].textContent);
+				$("#addEditForm").find(".form-control").each(function() {
+					var temp = $(this).attr("id");
+					if (temp == cells[i].id) {
+						$(this).val($.trim(cells[i].textContent));
+					}
+				});
+
+				$("#selectElement1 option[value='"
+								+ $.trim(cells[i].textContent) + "']").prop('selected', true);
+				$("#selectElement2 option[value='"
+								+ $.trim(cells[i].textContent) + "']").prop('selected', true);
+			}
+
+		}
+
+	}
 </script>
 
 <script type="text/javascript">
@@ -288,10 +355,10 @@ function drawStacked() {
         dataTable.addColumn({ type: 'date', id: 'Start' });
         dataTable.addColumn({ type: 'date', id: 'End' });
         var valuesObject = JSON.parse(document.getElementById('graphData').innerHTML);
-        alert(valuesObject.graphDataList[1].task);
-        dataTable.addRows([[valuesObject.graphDataList[0].task, new Date(valuesObject.graphDataList[0].startDate), new Date(valuesObject.graphDataList[0].endDate)],
-          [valuesObject.graphDataList[1].task, new Date(valuesObject.graphDataList[1].startDate),  new Date(valuesObject.graphDataList[1].endDate) ],
-          [valuesObject.graphDataList[2].task,  new Date(valuesObject.graphDataList[2].startDate),  new Date(valuesObject.graphDataList[2].endDate)]]);
+        //alert(valuesObject.graphDataList[1].task);
+        for( var index = 0; index < valuesObject.graphDataList.length; index++) {
+        	dataTable.addRows([[valuesObject.graphDataList[index].task, new Date(valuesObject.graphDataList[index].startDate), new Date(valuesObject.graphDataList[index].endDate)]]);
+        }
         chart.draw(dataTable);
       }
   

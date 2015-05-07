@@ -45,6 +45,8 @@ public class ProjectManager {
 		
 		String projectId = project.getId();
 		
+		model.addAttribute("tenantId", tenantId);
+		
 		if(tenantId.equals("1"))
 		{
 			model.addAttribute("graphData",getWaterFallData(projectId));
