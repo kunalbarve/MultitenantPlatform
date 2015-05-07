@@ -49,16 +49,16 @@ public class ProjectManager {
 		
 		if(tenantId.equals("1"))
 		{
-			model.addAttribute("graphData",getWaterFallData(projectId));
+			model.addAttribute("graphData",getWaterFallData(projectId,model));
 		}
 		else if(tenantId.equals("2"))
 		{
-			model.addAttribute("graphData",getScrumData(projectId));
+			model.addAttribute("graphData",getScrumData(projectId,model));
 		}
 		else if(tenantId.equals("3"))
 		{
 			System.out.println("------------------------------>The tenant id is 3<------------------------------");
-			model.addAttribute("graphData",getKanbanData(projectId));
+			model.addAttribute("graphData",getKanbanData(projectId,model));
 		}
 		
 		return details;
@@ -66,10 +66,11 @@ public class ProjectManager {
 	
 	//-----------------------------------------------------------------Graph Mappings--------------------------------------------------
 	
-		public static String getKanbanData(String projectId)
+		public static String getKanbanData(String projectId, Model model)
 		{
 			Project project;
 			String result ="";
+			String status="";
 			try {
 				project = ProjectManager.getProject(projectId);
 				int notStartedCount = 0;
@@ -97,43 +98,62 @@ public class ProjectManager {
 				}
 				result = notStartedCount+","+inProgressCount+","+completedCount;
 				
-				System.out.println("The result is " +result);
-
+				if(notStartedCount > 5)
+				{
+					status = "Not Started is Overflowing";
+				}
+				else if(inProgressCount > 5)
+				{
+					status = "In Progress is Overflowing";
+				}
+				else
+				{
+					status = "No Queue is Overflowing";
+					
+				}
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		model.addAttribute("ProjectStatus", status);
 			return result;
 
 		}
 
-		public static String getScrumData(String projectId)
+		public static String getScrumData(String projectId, Model model)
 		{
 			Project project;
 			String result ="";
 			int completedPoints = 0;
 			int totalPoints = 0;
+			int remainingPoints = 0;
 			Date startDate=null;
+			int duration = 0;
 			Date currentDate = new Date();
 			try {
 				project = ProjectManager.getProject(projectId);
 				startDate = project.getStartDate();
+				duration = project.getSprintDuration();
 				List<Data> dataList = project.getData();
 				List<Data> completedStoryList = new ArrayList<Data>();
 				List<Attribute> attributeList;
 				for (Data data : dataList) {
 					attributeList =	data.getAttributeValues();
 					for (Attribute attribute : attributeList) {
-						if(attribute.getKey().equals("Status") && ! attribute.getValue().equalsIgnoreCase(null))
+						System.out.println(attribute.getKey().toString());
+						if(attribute.getKey().trim().equalsIgnoreCase("Remaining Points"))
 						{
-							completedStoryList.add(data);
+							remainingPoints+= Integer.parseInt(attribute.getValue().trim());
+							
+							System.out.println("Remaining Points"+remainingPoints);
 
 						}
 
-						if(attribute.getKey().equals("Points"))
+						if(attribute.getKey().equalsIgnoreCase("Total Points"))
 						{
-							totalPoints+= Integer.parseInt(attribute.getValue());
+							System.out.println("The result is"+attribute.getValue());
+							totalPoints+= Integer.parseInt(attribute.getValue().trim());
 
 						}
 
@@ -145,29 +165,52 @@ public class ProjectManager {
 					for (Attribute attribute : attributeList) {
 						if(attribute.getKey().equals("Points"))
 						{
-							completedPoints+= Integer.parseInt(attribute.getValue()); 
+							System.out.println("Completed points"+attribute.getValue() );
+							completedPoints+= Integer.parseInt(attribute.getValue().trim()); 
+							
 
 						}
 
 					}
 
 				}
-				result = "0,"+totalPoints+","+startDate.compareTo(currentDate)+","+completedPoints;
+				result = "0,"+totalPoints+","+currentDate.compareTo(startDate)+","+remainingPoints;
 			
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			int idealVelocity = (totalPoints)/duration;
+			
+			int currentVelocity = (totalPoints - remainingPoints )/currentDate.compareTo(startDate);
+			
+			String status = "";
+			
+			if(idealVelocity == currentVelocity)
+			{
+				status = "Project is On Time";
+			}
+			else if(idealVelocity > currentVelocity)
+			{
+				status = "Project is Late";
+			}
+			else {
+				
+				status = "Project is Early";
+			}
 			System.out.println(result);
+			model.addAttribute("ProjectStatus", status);
 			return result;
 
 		}
 
-		public static String getWaterFallData(String projectId)
+		public static String getWaterFallData(String projectId, Model model)
 		{
 			Project project;
 			String json ="";
+			float completeCount=0;
+			float totalCount = 0;
 
 			try {
 				project = ProjectManager.getProject(projectId);
@@ -177,6 +220,7 @@ public class ProjectManager {
 				WaterFallGraphDataContainer graphDataContainer = new WaterFallGraphDataContainer();
 				WaterfallGraphData waterfallGraphData;
 				for (Data data : dataList) {
+					totalCount++;
 					waterfallGraphData = new WaterfallGraphData();
 					attributeList =	data.getAttributeValues();
 					for (Attribute attribute : attributeList) {
@@ -197,6 +241,14 @@ public class ProjectManager {
 							waterfallGraphData.setEndDate(attribute.getValue());
 
 						}
+						
+						if(attribute.getKey().equalsIgnoreCase("Status"))
+						{
+							if(attribute.getValue().equalsIgnoreCase("Complete"))
+							{
+								completeCount++;
+							}
+						}
 
 					}
 					graphDataContainer.getGraphDataList().add(waterfallGraphData);
@@ -210,6 +262,8 @@ public class ProjectManager {
 				e.printStackTrace();
 			}
 			System.out.println(json);
+			float percentageComplete = (completeCount/totalCount)*100;
+			model.addAttribute("ProjectStatus", String.valueOf(percentageComplete)+" Precentage Complete");
 			return json;
 
 		}

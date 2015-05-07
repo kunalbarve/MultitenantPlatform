@@ -5,15 +5,15 @@ import java.sql.SQLException;
 
 public class DatabaseConnector{
 
-	private static final String MYSQL_DB_NAME = "Multi_Tenant_Platform";
+	/*private static final String MYSQL_DB_NAME = "Multi_Tenant_Platform";
 	private static final String MYSQL_URL = "jdbc:mysql://localhost:3306/";
 	private static final String USER_NAME = "root";
-	private static final String PASSWORD = "kunal";
+	private static final String PASSWORD = "alkadudhia";*/
 	
-	/*private static final String MYSQL_DB_NAME = "multitenantapplication";
+	private static final String MYSQL_DB_NAME = "multitenantapplication";
 	private static final String MYSQL_URL = "jdbc:mysql://127.2.192.130:3306/";
 	private static final String USER_NAME = "adminEViN5D9";
-	private static final String PASSWORD = "tWmBxIcrYjDR";*/
+	private static final String PASSWORD = "tWmBxIcrYjDR";
 
 	private static Connection con = null;
 	

@@ -45,7 +45,7 @@
 	<strong>Project Name : </strong> ${project.projectName} 
 	</div>
 	<div style="color: white; margin-bottom: 10px; " class="col-md-5">
-	<strong>Status :</strong>
+	<strong>Status :</strong> <c:out value="${ProjectStatus}"></c:out>
 	</div>
 </div>
 
